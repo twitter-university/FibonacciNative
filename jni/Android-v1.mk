@@ -8,9 +8,9 @@ LOCAL_PATH := $(call my-dir)
 # LOCAL_PATH (this is needed because all variables are global)
 include $(CLEAR_VARS)
 
-# List all of our C/C++ files to be compiled (header file 
+# List all of our C files to be compiled (header file 
 # dependencies are automatically computed)
-LOCAL_SRC_FILES := com_marakana_android_fibonaccinative_FibLib.cpp
+LOCAL_SRC_FILES := com_marakana_android_fibonaccinative_FibLib.c
 
 # The name of our shared module (this name will be prepended
 # by lib and postfixed by .so)

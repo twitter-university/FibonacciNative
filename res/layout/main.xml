@@ -4,6 +4,7 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
+    <!-- This is just a simple title ("Get Your Fibonacci Here!")  -->
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -11,6 +12,7 @@
         android:text="@string/hello"
         android:textSize="25sp" />
 
+    <!-- This is the entry box for our number "n"  -->
     <EditText
         android:id="@+id/input"
         android:layout_width="match_parent"
@@ -21,6 +23,7 @@
         <requestFocus />
     </EditText>
 
+    <!-- This radio group allows the user to select the fibonacci implementation type  -->
     <RadioGroup
         android:id="@+id/type"
         android:layout_width="match_parent"
@@ -56,12 +59,14 @@
             android:text="@string/fibNI" />
     </RadioGroup>
 
+    <!-- This button allows the user to trigger fibonacci calculation  -->
     <Button
         android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/button" />
 
+    <!-- This is the output area for the fibonacci result  -->
     <TextView
         android:id="@+id/output"
         android:layout_width="match_parent"
