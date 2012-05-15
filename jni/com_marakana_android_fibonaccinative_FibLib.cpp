@@ -35,15 +35,15 @@ using namespace com_marakana_android_fibonaccinative;
 extern "C" jint JNI_OnLoad(JavaVM* vm, void* reserved) {
     JNIEnv* env;
     if (vm->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION_1_6) != JNI_OK) {
-        return -1;
+        return JNI_ERR;
     } else {
     	jclass clazz = env->FindClass("com/marakana/android/fibonaccinative/FibLib");
     	if (clazz) {
-    		env->RegisterNatives(clazz, method_table, sizeof(method_table) / sizeof(method_table[0]));
+    		int ret = env->RegisterNatives(clazz, method_table, sizeof(method_table) / sizeof(method_table[0]));
     		env->DeleteLocalRef(clazz);
-    		return JNI_VERSION_1_6;
+    		return ret == 0 ? JNI_VERSION_1_6 : JNI_ERR;
     	} else {
-    		return -1;
+    		return JNI_ERR;
     	}
     }
 }
