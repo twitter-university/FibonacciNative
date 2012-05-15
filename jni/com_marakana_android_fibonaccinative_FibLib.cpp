@@ -39,7 +39,7 @@ extern "C" jint JNI_OnLoad(JavaVM* vm, void* reserved) {
     } else {
     	jclass clazz = env->FindClass("com/marakana/android/fibonaccinative/FibLib");
     	if (clazz) {
-    		int ret = env->RegisterNatives(clazz, method_table, sizeof(method_table) / sizeof(method_table[0]));
+    		jint ret = env->RegisterNatives(clazz, method_table, sizeof(method_table) / sizeof(method_table[0]));
     		env->DeleteLocalRef(clazz);
     		return ret == 0 ? JNI_VERSION_1_6 : JNI_ERR;
     	} else {
