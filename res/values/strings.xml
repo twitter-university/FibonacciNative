@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="hello">Get Your Fibonacci Here!</string>
-	<string name="app_name">Fibonacci Client</string>
+	<string name="app_name">Fibonacci Native</string>
 	<string name="input_hint">Enter N</string>
 	<string name="input_error">Numbers only!</string>
 	<string name="button_text">Get Fib Result</string>

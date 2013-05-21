@@ -1,13 +1,9 @@
 package com.marakana.android.fibonaccinative;
 
-import java.util.Locale;
-
 import android.app.Activity;
-import android.app.ProgressDialog;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -15,13 +11,19 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-public class FibonacciActivity extends Activity implements OnClickListener {
+public class FibonacciActivity extends Activity implements OnClickListener,
+		FibonacciFragment.OnResultListener {
+	private static final String TAG = "FibonacciActivity";
 
 	private EditText input;
 
 	private RadioGroup type;
 
 	private TextView output;
+
+	private Button button;
+
+	private FibonacciFragment fibonacciFragment;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -30,8 +32,11 @@ public class FibonacciActivity extends Activity implements OnClickListener {
 		this.input = (EditText) super.findViewById(R.id.input);
 		this.type = (RadioGroup) super.findViewById(R.id.type);
 		this.output = (TextView) super.findViewById(R.id.output);
-		Button button = (Button) super.findViewById(R.id.button);
-		button.setOnClickListener(this);
+		this.button = (Button) super.findViewById(R.id.button);
+		this.button.setOnClickListener(this);
+		this.fibonacciFragment = (FibonacciFragment) super.getFragmentManager()
+				.findFragmentByTag("fibFrag");
+		Log.d(TAG, "onCreate fibonacciFragment=" + this.fibonacciFragment);
 	}
 
 	public void onClick(View view) {
@@ -39,40 +44,28 @@ public class FibonacciActivity extends Activity implements OnClickListener {
 		if (TextUtils.isEmpty(s)) {
 			return;
 		}
-		final ProgressDialog dialog = ProgressDialog.show(this, "",
-				"Calculating...", true);
-		final long n = Long.parseLong(s);
-		final Locale locale = super.getResources().getConfiguration().locale;
-		new AsyncTask<Void, Void, String>() {
+		int type = FibonacciActivity.this.type.getCheckedRadioButtonId();
+		long n = Long.parseLong(s);
+		Log.d(TAG, "onClick for type=" + type + " and n=" + n);
+		this.button.setEnabled(false);
+		this.fibonacciFragment = FibonacciFragment.newInstance(type, n);
+		super.getFragmentManager().beginTransaction()
+				.add(this.fibonacciFragment, "fibFrag").commit();
+		Log.d(TAG, "Passed control to " + this.fibonacciFragment);
+		// final ProgressDialog dialog = ProgressDialog.show(this, "",
+		// "Calculating...", true);
 
-			@Override
-			protected String doInBackground(Void... params) {
-				long result = 0;
-				long t = SystemClock.uptimeMillis();
-				switch (FibonacciActivity.this.type.getCheckedRadioButtonId()) {
-				case R.id.type_fib_jr:
-					result = FibLib.fibJR(n);
-					break;
-				case R.id.type_fib_ji:
-					result = FibLib.fibJI(n);
-					break;
-				case R.id.type_fib_nr:
-					result = FibLib.fibNR(n);
-					break;
-				case R.id.type_fib_ni:
-					result = FibLib.fibNI(n);
-					break;
-				}
-				t = SystemClock.uptimeMillis() - t;
-				return String.format(locale, "fib(%d)=%d in %d ms", n, result,
-						t);
-			}
+		//
+		// dialog.dismiss();
+	}
 
-			@Override
-			protected void onPostExecute(String result) {
-				dialog.dismiss();
-				FibonacciActivity.this.output.setText(result);
-			}
-		}.execute();
+	public void onResult(String result) {
+		Log.d(TAG, "Posting result: " + result);
+		this.output.setText(result);
+		this.button.setEnabled(true);
+		super.getFragmentManager().beginTransaction()
+				.remove(this.fibonacciFragment).commit();
+		this.fibonacciFragment = null;
+		Log.d(TAG, "Removed fragment");
 	}
 }
