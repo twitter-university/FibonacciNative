@@ -10,7 +10,7 @@ include $(CLEAR_VARS)
 
 # List all of our C/C++ files to be compiled (header file 
 # dependencies are automatically computed)
-LOCAL_SRC_FILES := com_marakana_android_fibonaccinative_FibLib.c
+LOCAL_SRC_FILES := com_marakana_android_fibonaccinative_FibLib.cpp
 
 # The name of our shared module (this name will be prepended
 # by lib and postfixed by .so)
