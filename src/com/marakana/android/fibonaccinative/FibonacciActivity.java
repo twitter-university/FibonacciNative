@@ -34,11 +34,13 @@ public class FibonacciActivity extends Activity implements OnClickListener,
 		this.output = (TextView) super.findViewById(R.id.output);
 		this.button = (Button) super.findViewById(R.id.button);
 		this.button.setOnClickListener(this);
+		// reconnect to our fragment (if it exists)
 		this.fibonacciFragment = (FibonacciFragment) super.getFragmentManager()
 				.findFragmentByTag("fibFrag");
 		Log.d(TAG, "onCreate fibonacciFragment=" + this.fibonacciFragment);
 	}
 
+	// called from button
 	public void onClick(View view) {
 		String s = this.input.getText().toString();
 		if (TextUtils.isEmpty(s)) {
@@ -48,21 +50,19 @@ public class FibonacciActivity extends Activity implements OnClickListener,
 		long n = Long.parseLong(s);
 		Log.d(TAG, "onClick for type=" + type + " and n=" + n);
 		this.button.setEnabled(false);
+		// create our fragment and add
 		this.fibonacciFragment = FibonacciFragment.newInstance(type, n);
 		super.getFragmentManager().beginTransaction()
 				.add(this.fibonacciFragment, "fibFrag").commit();
 		Log.d(TAG, "Passed control to " + this.fibonacciFragment);
-		// final ProgressDialog dialog = ProgressDialog.show(this, "",
-		// "Calculating...", true);
-
-		//
-		// dialog.dismiss();
 	}
 
+	// called from fragment
 	public void onResult(String result) {
 		Log.d(TAG, "Posting result: " + result);
 		this.output.setText(result);
 		this.button.setEnabled(true);
+		// git rid of our fragment
 		super.getFragmentManager().beginTransaction()
 				.remove(this.fibonacciFragment).commit();
 		this.fibonacciFragment = null;
