@@ -1,5 +1,7 @@
 package com.marakana.android.fibonaccinative;
 
+import java.util.Locale;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
@@ -37,10 +39,10 @@ public class FibonacciActivity extends Activity implements OnClickListener {
 		if (TextUtils.isEmpty(s)) {
 			return;
 		}
-
 		final ProgressDialog dialog = ProgressDialog.show(this, "",
 				"Calculating...", true);
 		final long n = Long.parseLong(s);
+		final Locale locale = super.getResources().getConfiguration().locale;
 		new AsyncTask<Void, Void, String>() {
 
 			@Override
@@ -62,7 +64,8 @@ public class FibonacciActivity extends Activity implements OnClickListener {
 					break;
 				}
 				t = SystemClock.uptimeMillis() - t;
-				return String.format("fib(%d)=%d in %d ms", n, result, t);
+				return String.format(locale, "fib(%d)=%d in %d ms", n, result,
+						t);
 			}
 
 			@Override

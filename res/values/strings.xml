@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="hello">Get Your Fibonacci Numbers Here!</string>
-    <string name="fibJR">fibJR</string>
-    <string name="fibJI">fibJI</string>
-    <string name="fibNR">fibNR</string>
-    <string name="fibNI">fibNI</string>
-    <string name="app_name">FibonacciNative</string>
-    <string name="button">Get Fibonacci Result</string>
-
+	<string name="hello">Get Your Fibonacci Here!</string>
+	<string name="app_name">Fibonacci Client</string>
+	<string name="input_hint">Enter N</string>
+	<string name="input_error">Numbers only!</string>
+	<string name="button_text">Get Fib Result</string>
+	<string name="progress_text">Calculating…</string>
+	<string name="fib_error">Failed to get Fibonacci result</string>
+	<string name="type_fib_jr">fibJR</string>
+	<string name="type_fib_ji">fibJI</string>
+	<string name="type_fib_nr">fibNR</string>
+	<string name="type_fib_ni">fibNI</string>
 </resources>
