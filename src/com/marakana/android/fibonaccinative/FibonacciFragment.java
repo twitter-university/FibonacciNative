@@ -83,24 +83,28 @@ public class FibonacciFragment extends Fragment {
 			// handle the result on the UI thread
 			@Override
 			protected void onPostExecute(String result) {
-				// if there is no listener (i.e. activity)
-				if (FibonacciFragment.this.onResultListener == null) {
-					Log.d(TAG, "Saving pending result: " + result);
-					// save for the activity when it comes back (if possible?)
-					FibonacciFragment.this.pendingResult = result;
-				} else {
-					// we are done, send the result
-					Log.d(TAG, "Submitting result: " + result);
-					FibonacciFragment.this.onResultListener.onResult(result);
+				synchronized (FibonacciFragment.this) {
+					// if there is no listener (i.e. activity)
+					if (FibonacciFragment.this.onResultListener == null) {
+						Log.d(TAG, "Saving pending result: " + result);
+						// save for the activity when it comes back (if
+						// possible?)
+						FibonacciFragment.this.pendingResult = result;
+					} else {
+						// we are done, send the result
+						Log.d(TAG, "Submitting result: " + result);
+						FibonacciFragment.this.onResultListener
+								.onResult(result);
+					}
 				}
 			}
 		}.execute();
 	}
 
-	// invoked every time we are given the activity (even on config changes)
+	// invoked on configuration changes as well as state changes
 	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
+	public void onStart() {
+		super.onStart();
 		// get our activity (as a listener)
 		this.onResultListener = (OnResultListener) super.getActivity();
 		if (this.pendingResult == null) {
@@ -117,14 +121,16 @@ public class FibonacciFragment extends Fragment {
 				.getActivity().getText(R.string.progress_text), true);
 	}
 
-	// activity going away (possibly due to a configuration change)
+	// invoked on configuration changes as well as state changes
 	@Override
-	public void onDetach() {
-		super.onDetach();
-		// dismiss our dialog and forget our listener (as it's going away)
-		Log.d(TAG, "Detached. Dismissing the listener and the dialog.");
-		this.dialog.dismiss();
-		this.dialog = null;
-		this.onResultListener = null;
+	public void onStop() {
+		super.onStop();
+		synchronized (FibonacciFragment.this) {
+			// dismiss our dialog; it can go away along with our listener
+			Log.d(TAG, "Stopped. Dismissing the listener and the dialog.");
+			this.dialog.dismiss();
+			this.dialog = null;
+			this.onResultListener = null;
+		}
 	}
 }

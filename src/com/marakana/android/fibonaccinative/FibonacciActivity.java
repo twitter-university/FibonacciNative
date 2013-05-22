@@ -37,7 +37,18 @@ public class FibonacciActivity extends Activity implements OnClickListener,
 		// reconnect to our fragment (if it exists)
 		this.fibonacciFragment = (FibonacciFragment) super.getFragmentManager()
 				.findFragmentByTag("fibFrag");
+		if (savedInstanceState != null) {
+			Log.d(TAG, "Restoring output");
+			this.output.setText(savedInstanceState.getCharSequence("output"));
+		}
 		Log.d(TAG, "onCreate fibonacciFragment=" + this.fibonacciFragment);
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putCharSequence("output", this.output.getText());
+		Log.d(TAG, "Saved output");
 	}
 
 	// called from button
