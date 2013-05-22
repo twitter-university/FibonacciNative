@@ -48,7 +48,7 @@ public class FibonacciFragment extends Fragment {
 		Log.d(TAG, "onCreate() with type=" + type + ", n=" + n
 				+ ", and locale=" + locale);
 
-		// run the expensive operation asynchronosly
+		// run the expensive operation asynchronously
 		new AsyncTask<Void, Void, String>() {
 
 			@Override
